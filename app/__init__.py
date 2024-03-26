@@ -32,7 +32,17 @@ def create_app(test_config = True):
     db.init_app(app)
     migrate.init_app(app, db)
 
+    from app.models.contact_info import ContactInfo
+    from app.models.giveaway import Giveaway
+    from app.models.giveaway_ticket import giveaway_ticket
+
     from .routes.giveaways import giveaways_bp
     app.register_blueprint(giveaways_bp)
+
+    from .routes.contact_info import contact_info_bp
+    app.register_blueprint(contact_info_bp)
+
+    from .routes.giveaway_tickets import giveaway_tickets_bp
+    app.register_blueprint(giveaway_tickets_bp)
 
     return app
