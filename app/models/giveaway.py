@@ -1,10 +1,11 @@
 from app import db
+from .ticket import ticket
+from .winner import winner
 
 class Giveaway(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    name = db.Column(db.String, nullable=False)
-    start_date_time = db.Column(db.DateTime)
-    end_date_time = db.Column(db.DateTime)
-    winning_entry_id = db.Column(db.Integer, db.ForeignKey('contact_info.id'))
-
-    #store photos in react public folder
+    name = db.Column(db.String)
+    start_date = db.Column(db.DateTime)
+    end_date = db.Column(db.DateTime)
+    participants = db.relationship('Participant', secondary=ticket, back_populates="giveaways_entered")
+    winners = db.relationship('Participant', secondary=winner, back_populates='giveaways_won')
