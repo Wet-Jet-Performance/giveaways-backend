@@ -7,10 +7,10 @@ import os
 
 db = SQLAlchemy()
 migrate = Migrate()
-load_dotenv()
+load_dotenv(override=True)
 
 
-def create_app(test_config = True):
+def create_app(test_config = False):
     app = Flask(__name__)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
