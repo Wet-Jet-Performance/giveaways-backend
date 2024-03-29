@@ -33,6 +33,19 @@ def create_giveaway():
 
     return jsonify({"msg":f"Successfully created new Giveaway with id {new_giveaway.id}"}), 201
 
+@giveaways_bp.route('/<int:giveaway_id>', methods=["GET"])
+def get_one_giveaway(giveaway_id):
+    giveaway = db.session.scalar(db.select(Giveaway).where(Giveaway.id == giveaway_id))
+
+    return_giveaway = {
+            "name": giveaway.name,
+            "id": giveaway.id,
+            "start_date": giveaway.start_date,
+            "end_date": giveaway.end_date
+        }
+
+    return return_giveaway, 200
+
 @giveaways_bp.route('/<int:giveaway_id>/participants', methods=["GET"])
 def get_giveaway_participants(giveaway_id):
     giveaway = db.session.scalar(db.select(Giveaway).where(Giveaway.id == giveaway_id))

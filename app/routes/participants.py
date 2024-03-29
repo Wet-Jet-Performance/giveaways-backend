@@ -32,3 +32,15 @@ def create_participant():
     db.session.commit()
 
     return jsonify({"msg":f"Successfully created new participant contact info with id {new_participant.id}"}), 201
+
+@participants_bp.route('/<int:participant_id>', methods=["GET"])
+def get_one_participant(participant_id):
+    participant = db.session.scalar(db.select(Participant).where(Participant.id == participant_id))
+
+    return_participant = {
+            "id": participant.id,
+            "name": participant.name,
+            "phone_number": participant.phone_number,
+            "email": participant.email
+            }
+    return return_participant, 200
