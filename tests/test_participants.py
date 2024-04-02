@@ -82,3 +82,44 @@ def test_get_participant_by_id_returns_correct_participant(client, two_participa
         "phone_number": "(123)456-7891",
         "email": "participant2@email.com"
     }
+
+def test_get_participant_giveaways_entered_returns_list_of_giveaways(client, two_giveaways, two_participants, two_tickets):
+    response = client.get("participants/1/giveaways_entered")
+    response_body = response.get_json()
+
+    assert response.status_code == 200
+    assert response_body == [
+        {"id": 1,
+         "name": "Giveaway 1",
+         "start_date": "Thu, 28 Mar 2024 00:00:00 GMT",
+         "end_date": "Fri, 29 Mar 2024 00:00:00 GMT"}
+    ]
+
+def test_update_participant(client, two_participants):
+    response1 = client.put("/participants/1", json={
+        "name": "New Participant 1",
+        "phone_number": "(123)456-7890",
+        "email": "newparticipant1@email.com"
+    })
+    response_body1 = response1.get_json()
+
+    assert response1.status_code == 200
+    assert "success" in response_body1["msg"].lower()
+    assert "1" in response_body1["msg"]
+
+    #ensure new data is in database
+    response2 = client.get("/participants")
+    response_body2 = response2.get_json()
+
+    assert response2.status_code == 200
+    #note - updated item placed at end of list
+    assert response_body2 == [
+        {"id": 2,
+         "name": "Participant 2",
+         "phone_number": "(123)456-7891",
+         "email": "participant2@email.com"},
+        {"id": 1,
+         "name": "New Participant 1",
+         "phone_number": "(123)456-7890",
+         "email": "newparticipant1@email.com"}
+    ]
