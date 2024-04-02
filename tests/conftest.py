@@ -4,8 +4,8 @@ from app import db
 from flask.signals import request_finished
 from app.models.giveaway import Giveaway
 from app.models.participant import Participant
-from app.models.ticket import ticket
-from app.models.winner import winner
+from app.models.ticket import Ticket
+from app.models.winner import Winner
 
 @pytest.fixture
 def app():
@@ -50,22 +50,19 @@ def two_participants(app):
 
 @pytest.fixture
 def two_tickets(app):
-    db.session.execute(db.insert(ticket).values(
-                            giveaway_id=1,
-                            participant_id=1))
-    db.session.execute(db.insert(ticket).values(
-                            giveaway_id=1,
-                            participant_id=2))
+    ticket1 = Ticket(giveaway_id=1, participant_id=1)
+    ticket2 = Ticket(giveaway_id=1, participant_id=2)
     
+    db.session.add(ticket1)
+    db.session.add(ticket2)
     db.session.commit()
 
 @pytest.fixture
 def two_winners(app):
-    db.session.execute(db.insert(winner).values(
-                            giveaway_id=1,
-                            participant_id=1))
-    db.session.execute(db.insert(winner).values(
-                            giveaway_id=2,
-                            participant_id=2))
+    winner1 = Winner(giveaway_id=1, participant_id=1)
+    winner2 = Winner(giveaway_id=2, participant_id=2)
     
+    db.session.add(winner1)
+    db.session.add(winner2)
     db.session.commit()
+

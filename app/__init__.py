@@ -25,8 +25,8 @@ def create_app(test_config = False):
 
     from app.models.participant import Participant
     from app.models.giveaway import Giveaway
-    from app.models.ticket import ticket
-    from app.models.winner import winner
+    from app.models.ticket import Ticket
+    from app.models.winner import Winner
 
     from .routes.giveaways import giveaways_bp
     app.register_blueprint(giveaways_bp)
@@ -39,5 +39,6 @@ def create_app(test_config = False):
 
     from .routes.winners import winners_bp
     app.register_blueprint(winners_bp)
+
 
     return app
