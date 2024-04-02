@@ -61,3 +61,32 @@ def get_giveaway_participants(giveaway_id):
         })
 
     return return_participants, 200
+
+@giveaways_bp.route('/<int:giveaway_id>', methods=['PUT'])
+def update_giveaway(giveaway_id):
+    request_body = request.get_json()
+    
+    db.session.execute(db.update(Giveaway), [{
+        "id": giveaway_id,
+        "name": request_body["name"],
+        "start_date": request_body["start_date"],
+        "end_date": request_body["end_date"]
+    }])
+
+    db.session.commit()
+
+    return {"msg":f"Successfully updated Giveaway with id {giveaway_id}"}, 200
+
+@giveaways_bp.route('/<int:giveaway_id>', methods=['DELETE'])
+def delete_giveaway(giveaway_id):
+    giveaway = db.session.scalar(db.select(Giveaway).where(Giveaway.id == giveaway_id))
+    for ticket in giveaway.tickets:
+        db.session.delete(ticket)
+    
+    for winner in giveaway.winners:
+        db.session.delete(winner)
+
+    db.session.delete(giveaway)
+    db.session.commit()
+
+    return {"msg":f"Successfully deleted Giveaway with id {giveaway_id}"}, 200
