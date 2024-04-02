@@ -1,9 +1,11 @@
 from app import db
+from .participant import Participant
+from .giveaway import Giveaway
 
-#Join Table
-#1 row represents 1 ticket
-ticket = db.Table('ticket',
-                    db.Column('id', db.Integer, primary_key=True, autoincrement=True),
-                    db.Column('giveaway_id', db.Integer, db.ForeignKey('giveaway.id')),
-                    db.Column('participant_id', db.Integer, db.ForeignKey('participant.id')),
-                    )
+class Ticket(db.Model):
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    giveaway_id = db.Column(db.Integer, db.ForeignKey(Giveaway.id))
+    participant_id = db.Column(db.Integer, db.ForeignKey(Participant.id))
+    participant = db.relationship('Participant', back_populates="tickets")
+    giveaway = db.relationship('Giveaway', back_populates="tickets")
+

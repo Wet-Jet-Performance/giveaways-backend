@@ -80,9 +80,13 @@ def update_giveaway(giveaway_id):
 @giveaways_bp.route('/<int:giveaway_id>', methods=['DELETE'])
 def delete_giveaway(giveaway_id):
     giveaway = db.session.scalar(db.select(Giveaway).where(Giveaway.id == giveaway_id))
+    for ticket in giveaway.tickets:
+        db.session.delete(ticket)
     
-    db.session.delete(giveaway)
+    for winner in giveaway.winners:
+        db.session.delete(winner)
 
+    db.session.delete(giveaway)
     db.session.commit()
 
     return {"msg":f"Successfully deleted Giveaway with id {giveaway_id}"}, 200

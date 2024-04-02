@@ -1,20 +1,20 @@
-from flask import Blueprint, jsonify, request, abort, make_response
+from flask import Blueprint, request
 from app import db
-from app.models.winner import winner
+from app.models.winner import Winner
 
 winners_bp = Blueprint("winners", __name__, url_prefix="/winners")
 
 @winners_bp.route('', methods=["GET"])
 def get_winners():
-    winners = db.session.execute(db.select(winner))
+    winners = db.session.scalars(db.select(Winner))
 
     return_winners = []
 
-    for entry in winners:
+    for winner in winners:
         return_winners.append({
-            "id": entry[0],
-            "giveaway_id": entry[1],
-            "participant_id": entry[2]
+            "id": winner.id,
+            "giveaway_id": winner.giveaway_id,
+            "participant_id": winner.participant_id
         })
     return return_winners, 200
 
@@ -22,10 +22,10 @@ def get_winners():
 def create_winner():
     request_body = request.get_json()
     
-    result = db.session.execute(db.insert(winner).values(
-                            giveaway_id=request_body["giveaway_id"],
-                            participant_id=request_body["participant_id"]))
+    new_winner = Winner(giveaway_id=request_body["giveaway_id"],
+                        participant_id=request_body["participant_id"])
     
+    db.session.add(new_winner)
     db.session.commit()
 
-    return jsonify({"msg":f"Successfully created new winner with id {result.inserted_primary_key[0]}"}), 201
+    return {"msg":f"Successfully created new winner with id {new_winner.id}"}, 201
