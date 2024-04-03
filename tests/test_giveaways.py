@@ -96,6 +96,17 @@ def test_get_giveaway_tickets_returns_list_of_tickets(client, two_giveaways, two
          "participant_id": 2}
     ]
 
+def test_get_giveaway_tickets_returns_list_of_tickets(client, two_giveaways, two_participants, two_winners):
+    response = client.get("/giveaways/1/winners")
+    response_body = response.get_json()
+
+    assert response.status_code == 200
+    assert response_body == [
+        {"id": 1,
+         "giveaway_id": 1,
+         "participant_id": 1}
+    ]
+
 def test_update_giveaway(client, two_giveaways):
     response1 = client.put("/giveaways/1", json={
         "name": "New Giveaway 1",
@@ -125,7 +136,7 @@ def test_update_giveaway(client, two_giveaways):
          "end_date": "Sun, 07 Jul 2024 00:00:00 GMT"}
     ]
 
-def test_delete_giveaway(client, two_giveaways):
+def test_delete_giveaway_deletes_giveaway_and_its_tickets_and_winners(client, two_giveaways, two_participants, two_tickets, two_winners):
     response1 = client.delete("/giveaways/1")
     response_body1 = response1.get_json()
 
@@ -144,3 +155,21 @@ def test_delete_giveaway(client, two_giveaways):
         "start_date": "Sun, 21 Apr 2024 00:00:00 GMT",
         "end_date": "Tue, 23 Apr 2024 00:00:00 GMT"
         }]
+    
+    #ensure tickets deleted
+    response2 = client.get("/tickets")
+    response_body2 = response2.get_json()
+
+    assert response2.status_code == 200
+    assert response_body2 == []
+
+    #ensure winner deleted
+    response3 = client.get("/winners")
+    response_body3 = response3.get_json()
+
+    assert response3.status_code == 200
+    assert response_body3 == [{
+        "id": 2,
+        "giveaway_id": 2, 
+        "participant_id": 2
+    }]

@@ -4,6 +4,20 @@ from app.models.giveaway import Giveaway
 
 giveaways_bp = Blueprint("giveaways", __name__, url_prefix="/giveaways")
 
+@giveaways_bp.route('', methods=['POST'])
+def create_giveaway():
+    request_body = request.get_json()
+
+    new_giveaway = Giveaway(name=request_body["name"],
+                            start_date=request_body["start_date"],
+                            end_date=request_body["end_date"]
+                            )
+    
+    db.session.add(new_giveaway)
+    db.session.commit()
+
+    return {"msg":f"Successfully created new Giveaway with id {new_giveaway.id}"}, 201
+
 @giveaways_bp.route('', methods=["GET"])
 def get_giveaways():
     giveaways = db.session.scalars(db.select(Giveaway))
@@ -18,20 +32,6 @@ def get_giveaways():
             "end_date": giveaway.end_date
         })
     return return_giveaways, 200
-
-@giveaways_bp.route('', methods=['POST'])
-def create_giveaway():
-    request_body = request.get_json()
-
-    new_giveaway = Giveaway(name=request_body["name"],
-                            start_date=request_body["start_date"],
-                            end_date=request_body["end_date"]
-                            )
-    
-    db.session.add(new_giveaway)
-    db.session.commit()
-
-    return {"msg":f"Successfully created new Giveaway with id {new_giveaway.id}"}, 201
 
 @giveaways_bp.route('/<int:giveaway_id>', methods=["GET"])
 def get_one_giveaway(giveaway_id):
@@ -60,6 +60,22 @@ def get_giveaway_tickets(giveaway_id):
         })
 
     return return_tickets, 200
+
+@giveaways_bp.route('/<int:giveaway_id>/winners', methods=["GET"])
+def get_giveaway_winners(giveaway_id):
+    giveaway = db.session.scalar(db.select(Giveaway).where(Giveaway.id == giveaway_id))
+
+    return_winners = []
+
+    for winner in giveaway.winners:
+        return_winners.append({
+            "id": winner.id,
+            "participant_id": winner.participant_id,
+            "giveaway_id": winner.giveaway_id
+        })
+
+    return return_winners, 200
+
 
 @giveaways_bp.route('/<int:giveaway_id>', methods=['PUT'])
 def update_giveaway(giveaway_id):

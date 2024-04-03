@@ -4,6 +4,20 @@ from app.models.participant import Participant
 
 participants_bp = Blueprint("participants", __name__, url_prefix="/participants")
 
+@participants_bp.route("", methods=["POST"])
+def create_participant():
+    request_body = request.get_json()
+
+    new_participant = Participant(name=request_body["name"],
+                            phone_number=request_body["phone_number"],
+                            email=request_body["email"]
+                            )
+    
+    db.session.add(new_participant)
+    db.session.commit()
+
+    return {"msg":f"Successfully created new participant contact info with id {new_participant.id}"}, 201
+
 @participants_bp.route("", methods=["GET"])
 def get_participants():
     participants = db.session.scalars(db.select(Participant))
@@ -18,20 +32,6 @@ def get_participants():
             "email": participant.email
         })
     return return_participants, 200
-
-@participants_bp.route("", methods=["POST"])
-def create_participant():
-    request_body = request.get_json()
-
-    new_participant = Participant(name=request_body["name"],
-                            phone_number=request_body["phone_number"],
-                            email=request_body["email"]
-                            )
-    
-    db.session.add(new_participant)
-    db.session.commit()
-
-    return {"msg":f"Successfully created new participant contact info with id {new_participant.id}"}, 201
 
 @participants_bp.route("/<int:participant_id>", methods=["GET"])
 def get_one_participant(participant_id):
@@ -61,6 +61,21 @@ def get_participant_tickets(participant_id):
 
     return return_tickets, 200
 
+@participants_bp.route("/<int:participant_id>/wins", methods=["GET"])
+def get_participant_wins(participant_id):
+    participant = db.session.scalar(db.select(Participant).where(Participant.id == participant_id))
+
+    return_wins = []
+
+    for win in participant.wins:
+        return_wins.append({
+            "id": win.id,
+            "participant_id": win.participant_id,
+            "giveaway_id": win.giveaway_id
+        })
+
+    return return_wins, 200
+
 @participants_bp.route('/<int:participant_id>', methods=['PUT'])
 def update_participant(participant_id):
     request_body = request.get_json()
@@ -80,8 +95,14 @@ def update_participant(participant_id):
 def delete_participant(participant_id):
     participant = db.session.scalar(db.select(Participant).where(Participant.id == participant_id))
     
+    for ticket in participant.tickets:
+        db.session.delete(ticket)
+    
+    for win in participant.wins:
+        db.session.delete(win)
+
     db.session.delete(participant)
 
     db.session.commit()
 
-    return {"msg":f"Successfully deleted Participant with id {participant_id}"}, 200
+    return {"msg":f"Successfully deleted Participant with id {participant_id} and corresponding tickets and wins"}, 200
