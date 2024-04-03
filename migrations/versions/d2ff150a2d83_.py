@@ -1,8 +1,8 @@
-"""refactor tables to models
+"""empty message
 
-Revision ID: f0c6f10865ed
+Revision ID: d2ff150a2d83
 Revises: 
-Create Date: 2024-04-02 16:25:08.191472
+Create Date: 2024-04-03 13:37:55.992979
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'f0c6f10865ed'
+revision = 'd2ff150a2d83'
 down_revision = None
 branch_labels = None
 depends_on = None
