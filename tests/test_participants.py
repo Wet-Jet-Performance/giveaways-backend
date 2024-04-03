@@ -83,16 +83,15 @@ def test_get_participant_by_id_returns_correct_participant(client, two_participa
         "email": "participant2@email.com"
     }
 
-def test_get_participant_giveaways_entered_returns_list_of_giveaways(client, two_giveaways, two_participants, two_tickets):
-    response = client.get("participants/1/giveaways_entered")
+def test_get_participant_tickets_returns_list_of_tickets(client, two_giveaways, two_participants, two_tickets):
+    response = client.get("participants/1/tickets")
     response_body = response.get_json()
 
     assert response.status_code == 200
     assert response_body == [
         {"id": 1,
-         "name": "Giveaway 1",
-         "start_date": "Thu, 28 Mar 2024 00:00:00 GMT",
-         "end_date": "Fri, 29 Mar 2024 00:00:00 GMT"}
+         "giveaway_id": 1,
+         "participant_id": 1}
     ]
 
 def test_update_participant(client, two_participants):

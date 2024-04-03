@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify, request, abort, make_response
+from flask import Blueprint, request
 from app import db
 from app.models.giveaway import Giveaway
 
@@ -31,7 +31,7 @@ def create_giveaway():
     db.session.add(new_giveaway)
     db.session.commit()
 
-    return jsonify({"msg":f"Successfully created new Giveaway with id {new_giveaway.id}"}), 201
+    return {"msg":f"Successfully created new Giveaway with id {new_giveaway.id}"}, 201
 
 @giveaways_bp.route('/<int:giveaway_id>', methods=["GET"])
 def get_one_giveaway(giveaway_id):
@@ -46,21 +46,20 @@ def get_one_giveaway(giveaway_id):
 
     return return_giveaway, 200
 
-@giveaways_bp.route('/<int:giveaway_id>/participants', methods=["GET"])
-def get_giveaway_participants(giveaway_id):
+@giveaways_bp.route('/<int:giveaway_id>/tickets', methods=["GET"])
+def get_giveaway_tickets(giveaway_id):
     giveaway = db.session.scalar(db.select(Giveaway).where(Giveaway.id == giveaway_id))
 
-    return_participants = []
+    return_tickets = []
 
-    for participant in giveaway.participants:
-        return_participants.append({
-            "name": participant.name,
-            "id": participant.id,
-            "phone_number": participant.phone_number,
-            "email": participant.email
+    for ticket in giveaway.tickets:
+        return_tickets.append({
+            "id": ticket.id,
+            "participant_id": ticket.participant_id,
+            "giveaway_id": ticket.giveaway_id
         })
 
-    return return_participants, 200
+    return return_tickets, 200
 
 @giveaways_bp.route('/<int:giveaway_id>', methods=['PUT'])
 def update_giveaway(giveaway_id):

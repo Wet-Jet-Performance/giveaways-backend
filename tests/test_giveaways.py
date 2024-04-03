@@ -82,20 +82,18 @@ def test_get_giveaway_by_id_returns_correct_giveaway(client, two_giveaways):
         "end_date": "Tue, 23 Apr 2024 00:00:00 GMT"
         }
 
-def test_get_giveaway_participants_returns_list_of_participants(client, two_giveaways, two_participants, two_tickets):
-    response = client.get("/giveaways/1/participants")
+def test_get_giveaway_tickets_returns_list_of_tickets(client, two_giveaways, two_participants, two_tickets):
+    response = client.get("/giveaways/1/tickets")
     response_body = response.get_json()
 
     assert response.status_code == 200
     assert response_body == [
         {"id": 1,
-         "name": "Participant 1",
-         "phone_number": "(123)456-7890",
-         "email": "participant1@email.com"},
+         "giveaway_id": 1,
+         "participant_id": 1},
         {"id": 2,
-         "name": "Participant 2",
-         "phone_number": "(123)456-7891",
-         "email": "participant2@email.com"}
+         "giveaway_id": 1,
+         "participant_id": 2}
     ]
 
 def test_update_giveaway(client, two_giveaways):
