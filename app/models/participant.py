@@ -6,4 +6,4 @@ class Participant(db.Model):
     phone_number = db.Column(db.Text)
     email = db.Column(db.String)
     tickets = db.relationship("Ticket", back_populates="participant")
-    giveaways_won = db.relationship("Winner", back_populates="participant")
+    wins = db.relationship("Winner", back_populates="participant")
