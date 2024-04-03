@@ -44,7 +44,7 @@ def test_create_two_giveaways(client):
     assert "success" in response_body2["msg"].lower()
     assert "2" in response_body2["msg"]
 
-    #ensure new data is in database
+    # ensure new data is in database
     response3 = client.get("/giveaways")
     response_body3 = response3.get_json()
 
@@ -119,12 +119,12 @@ def test_update_giveaway(client, two_giveaways):
     assert "success" in response_body1["msg"].lower()
     assert "1" in response_body1["msg"]
 
-    #ensure new data is in database
+    # ensure new data is in database
     response2 = client.get("/giveaways")
     response_body2 = response2.get_json()
 
     assert response2.status_code == 200
-    #note - updated item placed at end of list
+    # note - updated item placed at end of list
     assert response_body2 == [
         {"id": 2,
          "name": "Giveaway 2",
@@ -144,7 +144,7 @@ def test_delete_giveaway_deletes_giveaway_and_its_tickets_and_winners(client, tw
     assert "success" in response_body1["msg"].lower()
     assert "1" in response_body1["msg"]
 
-    #ensure data deleted from database
+    # ensure data deleted from database
     response2 = client.get("/giveaways")
     response_body2 = response2.get_json()
 
@@ -156,14 +156,14 @@ def test_delete_giveaway_deletes_giveaway_and_its_tickets_and_winners(client, tw
         "end_date": "Tue, 23 Apr 2024 00:00:00 GMT"
         }]
     
-    #ensure tickets deleted
+    # ensure tickets deleted
     response2 = client.get("/tickets")
     response_body2 = response2.get_json()
 
     assert response2.status_code == 200
     assert response_body2 == []
 
-    #ensure winner deleted
+    # ensure winner deleted
     response3 = client.get("/winners")
     response_body3 = response3.get_json()
 

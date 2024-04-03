@@ -44,7 +44,7 @@ def test_create_two_participants(client):
     assert "success" in response_body2["msg"].lower()
     assert "2" in response_body2["msg"]
 
-    #ensure new data is in database
+    # ensure new data is in database
     response3 = client.get("/participants")
     response_body3 = response3.get_json()
 
@@ -117,12 +117,12 @@ def test_update_participant(client, two_participants):
     assert "success" in response_body1["msg"].lower()
     assert "1" in response_body1["msg"]
 
-    #ensure new data is in database
+    # ensure new data is in database
     response2 = client.get("/participants")
     response_body2 = response2.get_json()
 
     assert response2.status_code == 200
-    #note - updated item placed at end of list
+    # ote - updated item placed at end of list
     assert response_body2 == [
         {"id": 2,
          "name": "Participant 2",
