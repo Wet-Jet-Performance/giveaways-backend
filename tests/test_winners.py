@@ -53,3 +53,32 @@ def test_create_two_winners(client, two_giveaways, two_participants):
          "giveaway_id": 2,
          "participant_id": 2}
     ]
+
+def test_get_one_winner_returns_correct_winner(client, two_giveaways, two_participants, two_winners):
+    response = client.get("/winners/1")
+    response_body = response.get_json()
+
+    assert response.status_code == 200
+    assert response_body == {
+        "id": 1,
+        "giveaway_id": 1,
+        "participant_id": 1
+    }
+
+def test_delete_winner(client, two_giveaways, two_participants, two_winners):
+    response1 = client.delete("/winners/1")
+    response_body1 = response1.get_json()
+
+    assert response1.status_code == 200
+    assert "success" in response_body1["msg"].lower()
+    assert "1" in response_body1["msg"]
+
+    response2 = client.get("winners")
+    response_body2 = response2.get_json()
+
+    assert response2.status_code == 200
+    assert response_body2 == [{
+        "id": 2,
+        "giveaway_id": 2,
+        "participant_id": 2
+    }]

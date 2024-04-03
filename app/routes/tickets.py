@@ -29,3 +29,27 @@ def get_tickets():
             "participant_id": ticket.participant_id
         })
     return return_tickets, 200
+
+@tickets_bp.route("/<int:ticket_id>", methods=["GET"])
+def get_one_ticket(ticket_id):
+    ticket = db.session.scalar(db.select(Ticket).where(Ticket.id == ticket_id))
+
+    return_ticket = {
+        "id": ticket.id,
+        "giveaway_id": ticket.giveaway_id,
+        "participant_id": ticket.participant_id
+    }
+
+    return return_ticket, 200
+
+@tickets_bp.route("/<int:ticket_id>", methods=["DELETE"])
+def delete_ticket(ticket_id):
+    ticket = db.session.scalar(db.select(Ticket).where(Ticket.id == ticket_id))
+
+    db.session.delete(ticket)
+    db.session.commit()
+    
+
+    return {"msg":f"Successfully deleted Ticket with id {ticket_id}"}, 200
+
+
