@@ -13,12 +13,12 @@ def test_get_all_giveaways_returns_list_of_giveaways(client, two_giveaways):
     assert response_body == [
         {"id": 1,
          "name": "Giveaway 1",
-         "start_date": "Thu, 28 Mar 2024 00:00:00 GMT",
-         "end_date": "Fri, 29 Mar 2024 00:00:00 GMT"},
+         "start_date": "March 28, 2024",
+         "end_date": "March 29, 2024"},
         {"id": 2,
          "name": "Giveaway 2",
-         "start_date": "Sun, 21 Apr 2024 00:00:00 GMT",
-         "end_date": "Tue, 23 Apr 2024 00:00:00 GMT"}
+         "start_date": "April 21, 2024",
+         "end_date": "April 23, 2024"}
     ]
 
 def test_create_two_giveaways(client):
@@ -52,12 +52,12 @@ def test_create_two_giveaways(client):
     assert response_body3 == [
         {"id": 1,
          "name": "New Giveaway 1",
-         "start_date": "Mon, 01 Jul 2024 00:00:00 GMT",
-         "end_date": "Sun, 07 Jul 2024 00:00:00 GMT"},
+         "start_date": "July 1, 2024",
+         "end_date": "July 7, 2024"},
         {"id": 2,
          "name": "New Giveaway 2",
-         "start_date": "Thu, 01 Aug 2024 00:00:00 GMT",
-         "end_date": "Wed, 07 Aug 2024 00:00:00 GMT"}
+         "start_date": "August 1, 2024",
+         "end_date": "August 7, 2024"}
     ]
 
 def test_get_giveaway_by_id_returns_correct_giveaway(client, two_giveaways):
@@ -71,15 +71,15 @@ def test_get_giveaway_by_id_returns_correct_giveaway(client, two_giveaways):
     assert response_body1 == {
         "id": 1,
         "name": "Giveaway 1",
-        "start_date": "Thu, 28 Mar 2024 00:00:00 GMT",
-        "end_date": "Fri, 29 Mar 2024 00:00:00 GMT"
+        "start_date": "March 28, 2024",
+        "end_date": "March 29, 2024"
         }
     assert response2.status_code == 200
     assert response_body2 == {
         "id": 2,
         "name": "Giveaway 2",
-        "start_date": "Sun, 21 Apr 2024 00:00:00 GMT",
-        "end_date": "Tue, 23 Apr 2024 00:00:00 GMT"
+        "start_date": "April 21, 2024",
+        "end_date": "April 23, 2024"
         }
 
 def test_get_giveaway_tickets_returns_list_of_tickets(client, two_giveaways, two_participants, two_tickets):
@@ -128,12 +128,12 @@ def test_update_giveaway(client, two_giveaways):
     assert response_body2 == [
         {"id": 2,
          "name": "Giveaway 2",
-         "start_date": "Sun, 21 Apr 2024 00:00:00 GMT",
-         "end_date": "Tue, 23 Apr 2024 00:00:00 GMT"},
+         "start_date": "April 21, 2024",
+         "end_date": "April 23, 2024"},
         {"id": 1,
          "name": "New Giveaway 1",
-         "start_date": "Mon, 01 Jul 2024 00:00:00 GMT",
-         "end_date": "Sun, 07 Jul 2024 00:00:00 GMT"}
+         "start_date": "July 1, 2024",
+         "end_date": "July 7, 2024"}
     ]
 
 def test_delete_giveaway_deletes_giveaway_and_its_tickets_and_winners(client, two_giveaways, two_participants, two_tickets, two_winners):
@@ -152,8 +152,8 @@ def test_delete_giveaway_deletes_giveaway_and_its_tickets_and_winners(client, tw
     assert response_body2 == [{
         "id": 2,
         "name": "Giveaway 2",
-        "start_date": "Sun, 21 Apr 2024 00:00:00 GMT",
-        "end_date": "Tue, 23 Apr 2024 00:00:00 GMT"
+        "start_date": "April 21, 2024",
+        "end_date": "April 23, 2024"
         }]
     
     # ensure tickets deleted

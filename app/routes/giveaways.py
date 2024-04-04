@@ -1,6 +1,7 @@
 from flask import Blueprint, request
 from app import db
 from app.models.giveaway import Giveaway
+from datetime import date
 
 giveaways_bp = Blueprint("giveaways", __name__, url_prefix="/giveaways")
 
@@ -28,8 +29,8 @@ def get_giveaways():
         return_giveaways.append({
             "id": giveaway.id,
             "name": giveaway.name,
-            "start_date": giveaway.start_date,
-            "end_date": giveaway.end_date
+            "start_date": giveaway.start_date.strftime("%B %-d, %Y"),
+            "end_date": giveaway.end_date.strftime("%B %-d, %Y")
         })
     return return_giveaways, 200
 
@@ -40,8 +41,8 @@ def get_one_giveaway(giveaway_id):
     return_giveaway = {
             "name": giveaway.name,
             "id": giveaway.id,
-            "start_date": giveaway.start_date,
-            "end_date": giveaway.end_date
+            "start_date": giveaway.start_date.strftime("%B %-d, %Y"),
+            "end_date": giveaway.end_date.strftime("%B %-d, %Y")
         }
 
     return return_giveaway, 200
