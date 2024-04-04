@@ -2,6 +2,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from dotenv import load_dotenv
+from flask_cors import CORS
 import os
 
 
@@ -40,5 +41,7 @@ def create_app(test_config = False):
     from .routes.winners import winners_bp
     app.register_blueprint(winners_bp)
 
-
+    # add origins parameter to specify where requests are allowed from
+    # CORS(app, origins=[“http://localhost:8000”, “https://example.com”]).
+    CORS(app)
     return app
