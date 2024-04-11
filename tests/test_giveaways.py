@@ -38,11 +38,11 @@ def test_create_two_giveaways(client):
 
     assert response1.status_code == 201
     assert "success" in response_body1["msg"].lower()
-    assert "1" in response_body1["msg"]
+    assert response_body1["id"] == 1
 
     assert response2.status_code == 201
     assert "success" in response_body2["msg"].lower()
-    assert "2" in response_body2["msg"]
+    assert response_body2["id"] == 2
 
     # ensure new data is in database
     response3 = client.get("/giveaways")

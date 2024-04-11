@@ -16,7 +16,8 @@ def create_participant():
     db.session.add(new_participant)
     db.session.commit()
 
-    return {"msg":f"Successfully created new participant contact info with id {new_participant.id}"}, 201
+    return {"msg": "Successfully created new participant contact info",
+            "id": new_participant.id}, 201
 
 @participants_bp.route("", methods=["GET"])
 def get_participants():

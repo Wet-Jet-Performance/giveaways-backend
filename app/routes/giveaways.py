@@ -17,7 +17,8 @@ def create_giveaway():
     db.session.add(new_giveaway)
     db.session.commit()
 
-    return {"msg":f"Successfully created new Giveaway with id {new_giveaway.id}"}, 201
+    return {"msg": "Successfully created new Giveaway",
+            "id": new_giveaway.id}, 201
 
 @giveaways_bp.route('', methods=["GET"])
 def get_giveaways():

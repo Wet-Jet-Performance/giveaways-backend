@@ -34,11 +34,11 @@ def test_create_two_winners(client, two_giveaways, two_participants):
 
     assert response1.status_code == 201
     assert "success" in response_body1["msg"].lower()
-    assert "1" in response_body1["msg"]
+    assert response_body1["id"] == 1
 
     assert response2.status_code == 201
     assert "success" in response_body2["msg"].lower()
-    assert "2" in response_body2["msg"]
+    assert response_body2["id"] == 2
 
     # ensure winners added to table
     response3 = client.get("/winners")

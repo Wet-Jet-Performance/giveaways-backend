@@ -28,7 +28,8 @@ def create_winner():
     db.session.add(new_winner)
     db.session.commit()
 
-    return {"msg":f"Successfully created new winner with id {new_winner.id}"}, 201
+    return {"msg": "Successfully created new winner",
+            "id": new_winner.id}, 201
 
 @winners_bp.route("/<int:winner_id>", methods=["GET"])
 def get_one_winner(winner_id):

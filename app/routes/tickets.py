@@ -14,7 +14,8 @@ def create_ticket():
     db.session.add(new_ticket)
     db.session.commit()
 
-    return {"msg":f"Successfully created new Ticket with id {new_ticket.id}"}, 201
+    return {"msg": "Successfully created new Ticket",
+            "id": new_ticket.id}, 201
 
 @tickets_bp.route("", methods=["GET"])
 def get_tickets():
