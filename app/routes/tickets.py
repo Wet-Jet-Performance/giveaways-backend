@@ -27,7 +27,11 @@ def get_tickets():
         return_tickets.append({
             "id": ticket.id,
             "giveaway_id": ticket.giveaway_id,
-            "participant_id": ticket.participant_id
+            "participant_id": ticket.participant_id,
+            "giveaway_name": ticket.giveaway.name,
+            "participant_name": ticket.participant.name,
+            "participant_phone": ticket.participant.phone_number,
+            "participant_email": ticket.participant.email
         })
     return return_tickets, 200
 
@@ -38,7 +42,11 @@ def get_one_ticket(ticket_id):
     return_ticket = {
         "id": ticket.id,
         "giveaway_id": ticket.giveaway_id,
-        "participant_id": ticket.participant_id
+        "participant_id": ticket.participant_id,
+        "giveaway_name": ticket.giveaway.name,
+        "participant_name": ticket.participant.name,
+        "participant_phone": ticket.participant.phone_number,
+        "participant_email": ticket.participant.email
     }
 
     return return_ticket, 200

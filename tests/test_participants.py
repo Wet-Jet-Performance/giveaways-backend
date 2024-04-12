@@ -160,9 +160,13 @@ def test_delete_participant_deletes_participant_tickets_and_wins(client, two_par
 
     assert response3.status_code == 200
     assert response_body3 == [
-        {"id": 2,
-         "giveaway_id": 1,
-         "participant_id": 2}
+        {"giveaway_id": 1,
+         "giveaway_name": "Giveaway 1",
+         "id": 2,
+         "participant_email": "participant2@email.com",
+         "participant_id": 2,
+         "participant_name": "Participant 2",
+         "participant_phone": "(123)456-7891"}
     ]
 
     response4 = client.get("/winners")

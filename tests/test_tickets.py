@@ -11,12 +11,20 @@ def test_get_all_tickets_returns_list_of_tickets(client, two_giveaways, two_part
 
     assert response.status_code == 200
     assert response_body == [
-        {"id": 1,
-         "giveaway_id": 1,
-         "participant_id": 1},
-        {"id": 2,
-         "giveaway_id": 1,
-         "participant_id": 2}
+        {"giveaway_id": 1,
+         "giveaway_name": "Giveaway 1",
+         "id": 1,
+         "participant_email": "participant1@email.com",
+         "participant_id": 1,
+         "participant_name": "Participant 1",
+         "participant_phone": "(123)456-7890"},
+        {"giveaway_id": 1,
+         "giveaway_name": "Giveaway 1",
+         "id": 2,
+         "participant_email": "participant2@email.com",
+         "participant_id": 2,
+         "participant_name": "Participant 2",
+         "participant_phone": "(123)456-7891"}
     ]
 
 def test_create_two_tickets(client, two_giveaways, two_participants):
@@ -46,12 +54,20 @@ def test_create_two_tickets(client, two_giveaways, two_participants):
 
     assert response3.status_code == 200
     assert response_body3 == [
-        {"id": 1,
-         "giveaway_id": 1,
-         "participant_id": 1},
-        {"id": 2,
-         "giveaway_id": 1,
-         "participant_id": 2}
+        {"giveaway_id": 1,
+         "giveaway_name": "Giveaway 1",
+         "id": 1,
+         "participant_email": "participant1@email.com",
+         "participant_id": 1,
+         "participant_name": "Participant 1",
+         "participant_phone": "(123)456-7890"},
+        {"giveaway_id": 1,
+         "giveaway_name": "Giveaway 1",
+         "id": 2,
+         "participant_email": "participant2@email.com",
+         "participant_id": 2,
+         "participant_name": "Participant 2",
+         "participant_phone": "(123)456-7891"}
     ]
 
 def test_get_one_ticket_returns_correct_ticket(client, two_giveaways, two_participants, two_tickets):
@@ -60,10 +76,14 @@ def test_get_one_ticket_returns_correct_ticket(client, two_giveaways, two_partic
 
     assert response.status_code == 200
     assert response_body == {
-        "id": 1,
-        "giveaway_id": 1,
-        "participant_id": 1
-    }
+            "giveaway_id": 1,
+            "giveaway_name": "Giveaway 1",
+            "id": 1,
+            "participant_email": "participant1@email.com",
+            "participant_id": 1,
+            "participant_name": "Participant 1",
+            "participant_phone": "(123)456-7890"
+        }
 
 def test_delete_ticket(client, two_giveaways, two_participants, two_tickets):
     response1 = client.delete("/tickets/1")
@@ -79,7 +99,11 @@ def test_delete_ticket(client, two_giveaways, two_participants, two_tickets):
 
     assert response2.status_code == 200
     assert response_body2 == [{
-        "id": 2,
         "giveaway_id": 1,
-        "participant_id": 2
+        "giveaway_name": "Giveaway 1",
+        "id": 2,
+        "participant_email": "participant2@email.com",
+        "participant_id": 2,
+        "participant_name": "Participant 2",
+        "participant_phone": "(123)456-7891"
     }]
