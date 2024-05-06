@@ -9,7 +9,7 @@ def create_ticket():
     request_body = request.get_json()
     giveaway_id = request_body["giveaway_id"], 
     participant_id = request_body["participant_id"]
-    num_tickets = request_body.get("number_of_tickets", 1)
+    num_tickets = int(request_body.get("number_of_tickets", 1))
 
 
     # if num_tickets == 1:
