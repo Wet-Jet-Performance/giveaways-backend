@@ -42,11 +42,9 @@ def test_create_two_tickets(client, two_giveaways, two_participants):
 
     assert response1.status_code == 201
     assert "success" in response_body1["msg"].lower()
-    assert response_body1["id"] == 1
 
     assert response2.status_code == 201
     assert "success" in response_body2["msg"].lower()
-    assert response_body2["id"] == 2
 
     # ensure new ticket in database
     response3 = client.get("/tickets")
@@ -68,6 +66,39 @@ def test_create_two_tickets(client, two_giveaways, two_participants):
          "participant_id": 2,
          "participant_name": "Participant 2",
          "participant_phone": "(123)456-7891"}
+    ]
+
+def test_bulk_create_two_tickets(client, two_giveaways, two_participants):
+    response1 = client.post("/tickets", json={
+        "giveaway_id": 1,
+        "participant_id": 1,
+        "number_of_tickets": 2
+    })
+    response_body1 = response1.get_json()
+
+    assert response1.status_code == 201
+    assert "success" in response_body1["msg"].lower()
+
+    # ensure new tickets in database
+    response2 = client.get("/tickets")
+    response_body2 = response2.get_json()
+
+    assert response2.status_code == 200
+    assert response_body2 == [
+        {"giveaway_id": 1,
+         "giveaway_name": "Giveaway 1",
+         "id": 1,
+         "participant_email": "participant1@email.com",
+         "participant_id": 1,
+         "participant_name": "Participant 1",
+         "participant_phone": "(123)456-7890"},
+        {"giveaway_id": 1,
+         "giveaway_name": "Giveaway 1",
+         "id": 2,
+         "participant_email": "participant1@email.com",
+         "participant_id": 1,
+         "participant_name": "Participant 1",
+         "participant_phone": "(123)456-7890"},
     ]
 
 def test_get_one_ticket_returns_correct_ticket(client, two_giveaways, two_participants, two_tickets):

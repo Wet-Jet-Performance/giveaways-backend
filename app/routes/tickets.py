@@ -7,15 +7,24 @@ tickets_bp = Blueprint("tickets", __name__, url_prefix="/tickets")
 @tickets_bp.route('', methods=['POST'])
 def create_ticket():
     request_body = request.get_json()
+    giveaway_id = request_body["giveaway_id"], 
+    participant_id = request_body["participant_id"]
+    num_tickets = request_body.get("number_of_tickets", 1)
+
+
+    # if num_tickets == 1:
+    #     new_ticket = Ticket(giveaway_id, participant_id)
+    #     db.session.add(new_ticket)
+    #     db.session.commit()
+    # elif num_tickets > 1:
     
-    new_ticket = Ticket(giveaway_id=request_body["giveaway_id"], 
-                        participant_id=request_body["participant_id"])
+    new_tickets = [{"giveaway_id": giveaway_id, "participant_id": participant_id} for ticket in range(0, num_tickets)]
     
-    db.session.add(new_ticket)
+    db.session.execute(db.insert(Ticket), new_tickets)
     db.session.commit()
 
-    return {"msg": "Successfully created new Ticket",
-            "id": new_ticket.id}, 201
+
+    return {"msg": "Successfully created new Ticket(s)"}, 201
 
 @tickets_bp.route("", methods=["GET"])
 def get_tickets():
