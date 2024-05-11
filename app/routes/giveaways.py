@@ -31,7 +31,13 @@ def get_giveaways():
             "id": giveaway.id,
             "name": giveaway.name,
             "start_date": giveaway.start_date.strftime("%B %-d, %Y"),
-            "end_date": giveaway.end_date.strftime("%B %-d, %Y")
+            "end_date": giveaway.end_date.strftime("%B %-d, %Y"),
+            "winners": [{
+                "id": winner.id,
+                "giveaway_id": winner.giveaway_id,
+                "participant_id": winner.participant_id,
+                "winning_ticket_id": winner.winning_ticket_id
+            } for winner in giveaway.winners]
         })
     return return_giveaways, 200
 
@@ -43,7 +49,13 @@ def get_one_giveaway(giveaway_id):
             "name": giveaway.name,
             "id": giveaway.id,
             "start_date": giveaway.start_date.strftime("%B %-d, %Y"),
-            "end_date": giveaway.end_date.strftime("%B %-d, %Y")
+            "end_date": giveaway.end_date.strftime("%B %-d, %Y"),
+            "winners": [{
+                "id": winner.id,
+                "giveaway_id": winner.giveaway_id,
+                "participant_id": winner.participant_id,
+                "winning_ticket_id": winner.winning_ticket_id
+            } for winner in giveaway.winners]
         }
 
     return return_giveaway, 200
@@ -97,11 +109,12 @@ def update_giveaway(giveaway_id):
 @giveaways_bp.route('/<int:giveaway_id>', methods=['DELETE'])
 def delete_giveaway(giveaway_id):
     giveaway = db.session.scalar(db.select(Giveaway).where(Giveaway.id == giveaway_id))
-    for ticket in giveaway.tickets:
-        db.session.delete(ticket)
     
     for winner in giveaway.winners:
         db.session.delete(winner)
+    
+    for ticket in giveaway.tickets:
+        db.session.delete(ticket)
 
     db.session.delete(giveaway)
     db.session.commit()
