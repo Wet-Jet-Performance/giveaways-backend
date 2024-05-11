@@ -14,7 +14,11 @@ def get_winners():
         return_winners.append({
             "id": winner.id,
             "giveaway_id": winner.giveaway_id,
-            "participant_id": winner.participant_id
+            "participant_id": winner.participant_id,
+            "winning_ticket_id": winner.winning_ticket_id,
+            "participant_name": winner.participant.name,
+            "participant_phone": winner.participant.phone_number,
+            "participant_email": winner.participant.email
         })
     return return_winners, 200
 
@@ -23,7 +27,8 @@ def create_winner():
     request_body = request.get_json()
     
     new_winner = Winner(giveaway_id=request_body["giveaway_id"],
-                        participant_id=request_body["participant_id"])
+                        participant_id=request_body["participant_id"],
+                        winning_ticket_id=request_body["winning_ticket_id"])
     
     db.session.add(new_winner)
     db.session.commit()
@@ -38,7 +43,11 @@ def get_one_winner(winner_id):
     return_winner = {
         "id": winner.id,
         "giveaway_id": winner.giveaway_id,
-        "participant_id": winner.participant_id
+        "participant_id": winner.participant_id,
+        "winning_ticket_id": winner.winning_ticket_id,
+        "participant_name": winner.participant.name,
+        "participant_phone": winner.participant.phone_number,
+        "participant_email": winner.participant.email
     }
 
     return return_winner, 200

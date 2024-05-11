@@ -5,7 +5,7 @@ def test_get_all_winners_with_empty_db_returns_empty_list(client):
     assert response.status_code == 200
     assert response_body == []
 
-def test_get_all_winners_returns_list_of_winners(client, two_giveaways, two_participants, two_winners):
+def test_get_all_winners_returns_list_of_winners(client, two_giveaways, two_participants, two_tickets, two_winners):
     response = client.get("/winners")
     response_body = response.get_json()
 
@@ -13,22 +13,32 @@ def test_get_all_winners_returns_list_of_winners(client, two_giveaways, two_part
     assert response_body == [
         {"id": 1,
          "giveaway_id": 1,
-         "participant_id": 1},
+         "participant_id": 1,
+         "winning_ticket_id": 1,
+         "participant_email": "participant1@email.com",
+         "participant_name": "Participant 1",
+         "participant_phone": "(123)456-7890"},
         {"id": 2,
-         "giveaway_id": 2,
-         "participant_id": 2}
+         "giveaway_id": 1,
+         "participant_id": 2,
+         "winning_ticket_id": 2,
+         "participant_email": "participant2@email.com",
+         "participant_name": "Participant 2",
+         "participant_phone": "(123)456-7891"}
     ]
 
-def test_create_two_winners(client, two_giveaways, two_participants):
+def test_create_two_winners(client, two_giveaways, two_participants, two_tickets):
     response1 = client.post("/winners", json={
         "giveaway_id": 1,
-        "participant_id": 1
+        "participant_id": 1,
+        "winning_ticket_id": 1
     })
     response_body1 = response1.get_json()
 
     response2 = client.post("/winners", json={
         "giveaway_id": 2,
-        "participant_id": 2
+        "participant_id": 2,
+        "winning_ticket_id": 2
     })
     response_body2 = response2.get_json()
 
@@ -48,13 +58,21 @@ def test_create_two_winners(client, two_giveaways, two_participants):
     assert response_body3 == [
         {"id": 1,
          "giveaway_id": 1,
-         "participant_id": 1},
+         "participant_id": 1,
+         "winning_ticket_id": 1,
+         "participant_email": "participant1@email.com",
+         "participant_name": "Participant 1",
+         "participant_phone": "(123)456-7890"},
         {"id": 2,
          "giveaway_id": 2,
-         "participant_id": 2}
+         "participant_id": 2,
+         "winning_ticket_id": 2,
+         "participant_email": "participant2@email.com",
+         "participant_name": "Participant 2",
+         "participant_phone": "(123)456-7891"}
     ]
 
-def test_get_one_winner_returns_correct_winner(client, two_giveaways, two_participants, two_winners):
+def test_get_one_winner_returns_correct_winner(client, two_giveaways, two_participants, two_tickets, two_winners):
     response = client.get("/winners/1")
     response_body = response.get_json()
 
@@ -62,10 +80,14 @@ def test_get_one_winner_returns_correct_winner(client, two_giveaways, two_partic
     assert response_body == {
         "id": 1,
         "giveaway_id": 1,
-        "participant_id": 1
+        "participant_id": 1,
+        "winning_ticket_id": 1,
+        "participant_email": "participant1@email.com",
+        "participant_name": "Participant 1",
+        "participant_phone": "(123)456-7890"
     }
 
-def test_delete_winner(client, two_giveaways, two_participants, two_winners):
+def test_delete_winner(client, two_giveaways, two_participants, two_tickets, two_winners):
     response1 = client.delete("/winners/1")
     response_body1 = response1.get_json()
 
@@ -79,6 +101,10 @@ def test_delete_winner(client, two_giveaways, two_participants, two_winners):
     assert response2.status_code == 200
     assert response_body2 == [{
         "id": 2,
-        "giveaway_id": 2,
-        "participant_id": 2
+        "giveaway_id": 1,
+        "participant_id": 2,
+        "winning_ticket_id": 2,
+        "participant_email": "participant2@email.com",
+        "participant_name": "Participant 2",
+        "participant_phone": "(123)456-7891"
     }]

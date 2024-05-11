@@ -59,8 +59,8 @@ def two_tickets(app):
 
 @pytest.fixture
 def two_winners(app):
-    winner1 = Winner(giveaway_id=1, participant_id=1)
-    winner2 = Winner(giveaway_id=2, participant_id=2)
+    winner1 = Winner(giveaway_id=1, participant_id=1, winning_ticket_id=1)
+    winner2 = Winner(giveaway_id=1, participant_id=2, winning_ticket_id=2)
     
     db.session.add(winner1)
     db.session.add(winner2)
