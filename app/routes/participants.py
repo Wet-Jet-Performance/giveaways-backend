@@ -96,11 +96,11 @@ def update_participant(participant_id):
 def delete_participant(participant_id):
     participant = db.session.scalar(db.select(Participant).where(Participant.id == participant_id))
     
-    for ticket in participant.tickets:
-        db.session.delete(ticket)
-    
     for win in participant.wins:
         db.session.delete(win)
+    
+    for ticket in participant.tickets:
+        db.session.delete(ticket)
 
     db.session.delete(participant)
 
