@@ -15,6 +15,9 @@ def create_app(test_config = False):
     app = Flask(__name__)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
+    curr_dir = os.path.dirname(os.path.realpath(__file__))
+    app.config['UPLOAD_FOLDER'] = os.path.join(curr_dir, 'static')
+
     if not test_config:
         app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_CONNECTION_STRING")
     else:
@@ -28,6 +31,7 @@ def create_app(test_config = False):
     from app.models.giveaway import Giveaway
     from app.models.ticket import Ticket
     from app.models.winner import Winner
+    from app.models.photo import Photo
 
     from .routes.giveaways import giveaways_bp
     app.register_blueprint(giveaways_bp)
