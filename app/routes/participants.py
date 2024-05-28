@@ -21,7 +21,7 @@ def create_participant():
 
 @participants_bp.route("", methods=["GET"])
 def get_participants():
-    participants = db.session.scalars(db.select(Participant))
+    participants = db.session.scalars(db.select(Participant).order_by(Participant.name))
 
     return_participants = []
 

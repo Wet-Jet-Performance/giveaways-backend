@@ -1,7 +1,8 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, current_app
 from app import db
 from app.models.giveaway import Giveaway
 from datetime import date
+import os
 
 giveaways_bp = Blueprint("giveaways", __name__, url_prefix="/giveaways")
 
@@ -13,6 +14,7 @@ def create_giveaway():
                             start_date=request_body["start_date"],
                             end_date=request_body["end_date"]
                             )
+    
     
     db.session.add(new_giveaway)
     db.session.commit()
