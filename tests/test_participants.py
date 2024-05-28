@@ -124,14 +124,14 @@ def test_update_participant(client, two_participants):
     assert response2.status_code == 200
     # ote - updated item placed at end of list
     assert response_body2 == [
-        {"id": 2,
-         "name": "Participant 2",
-         "phone_number": "(123)456-7891",
-         "email": "participant2@email.com"},
         {"id": 1,
          "name": "New Participant 1",
          "phone_number": "(123)456-7890",
-         "email": "newparticipant1@email.com"}
+         "email": "newparticipant1@email.com"},
+        {"id": 2,
+         "name": "Participant 2",
+         "phone_number": "(123)456-7891",
+         "email": "participant2@email.com"}
     ]
 
 def test_delete_participant_deletes_participant_tickets_and_wins(client, two_participants, two_giveaways, two_tickets, two_winners):
