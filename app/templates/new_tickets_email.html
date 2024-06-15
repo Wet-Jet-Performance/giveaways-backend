@@ -1,0 +1,14 @@
+<p> Hello {{ participant_name }},</p>
+<p> We have added {{ number_of_new_tickets }} new ticket(s) into our Giveaway - {{ giveaway_name }} for you!</p>
+<p> Your new ticket ID(s)</p>
+<ul>
+    {% for id in ticket_ids %}
+    <li>Ticket #{{ id }}</li>
+    {% endfor %}
+</ul>
+<p> You now have a total of {{ total_tickets }} tickets entered into our giveaway.</p>
+<br>
+<p> Thank you for participating, </p>
+<p> The Wet Jet Performance Team</p>
+<br>
+<p> Note: This is an automated message. Please do not reply to this email. </p>

@@ -7,3 +7,4 @@ class Giveaway(db.Model):
     end_date = db.Column(db.DateTime)
     tickets = db.relationship("Ticket", back_populates="giveaway")
     winners = db.relationship("Winner", back_populates="giveaway")
+    photos = db.relationship("Photo", back_populates="giveaway")
