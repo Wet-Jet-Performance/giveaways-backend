@@ -1,8 +1,6 @@
-from flask import Blueprint, request, current_app
+from flask import Blueprint, request
 from app import db
 from app.models.giveaway import Giveaway
-from datetime import date
-import os
 
 giveaways_bp = Blueprint("giveaways", __name__, url_prefix="/giveaways")
 
@@ -22,6 +20,7 @@ def create_giveaway():
     return {"msg": "Successfully created new Giveaway",
             "id": new_giveaway.id}, 201
 
+
 @giveaways_bp.route('', methods=["GET"])
 def get_giveaways():
     giveaways = db.session.scalars(db.select(Giveaway))
@@ -39,7 +38,11 @@ def get_giveaways():
                 "giveaway_id": winner.giveaway_id,
                 "participant_id": winner.participant_id,
                 "winning_ticket_id": winner.winning_ticket_id
-            } for winner in giveaway.winners]
+            } for winner in giveaway.winners],
+            "photos": [{
+                "id": photo.id,
+                "cloudflare_id": photo.cloudflare_id
+            } for photo in giveaway.photos]
         })
     return return_giveaways, 200
 
@@ -57,7 +60,11 @@ def get_one_giveaway(giveaway_id):
                 "giveaway_id": winner.giveaway_id,
                 "participant_id": winner.participant_id,
                 "winning_ticket_id": winner.winning_ticket_id
-            } for winner in giveaway.winners]
+            } for winner in giveaway.winners],
+            "photos": [{
+                "id": photo.id,
+                "cloudflare_id": photo.cloudflare_id
+            } for photo in giveaway.photos]
         }
 
     return return_giveaway, 200

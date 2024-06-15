@@ -14,6 +14,13 @@ load_dotenv(override=True)
 def create_app(test_config = False):
     app = Flask(__name__)
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+    app.config['MAIL_PORT'] = 587
+    app.config['MAIL_USERNAME'] = os.environ.get("GMAIL_ACCOUNT")
+    app.config['MAIL_PASSWORD'] = os.environ.get("GMAIL_PASSWORD")
+    app.config['MAIL_USE_TLS'] = True
+    app.config['MAIL_USE_SSL'] = False
+    app.config['MAIL_DEFAULT_SENDER'] = os.environ.get("GMAIL_ACCOUNT")
 
     if not test_config:
         app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get("DATABASE_CONNECTION_STRING")
@@ -28,6 +35,7 @@ def create_app(test_config = False):
     from app.models.giveaway import Giveaway
     from app.models.ticket import Ticket
     from app.models.winner import Winner
+    from app.models.photo import Photo
 
     from .routes.giveaways import giveaways_bp
     app.register_blueprint(giveaways_bp)
@@ -40,6 +48,9 @@ def create_app(test_config = False):
 
     from .routes.winners import winners_bp
     app.register_blueprint(winners_bp)
+
+    from .routes.photos import photos_bp
+    app.register_blueprint(photos_bp)
 
     # add origins parameter to specify where requests are allowed from
     # CORS(app, origins=[“http://localhost:8000”, “https://example.com”]).
