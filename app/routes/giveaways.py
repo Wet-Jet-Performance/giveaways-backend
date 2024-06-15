@@ -60,7 +60,11 @@ def get_one_giveaway(giveaway_id):
                 "giveaway_id": winner.giveaway_id,
                 "participant_id": winner.participant_id,
                 "winning_ticket_id": winner.winning_ticket_id
-            } for winner in giveaway.winners]
+            } for winner in giveaway.winners],
+            "photos": [{
+                "id": photo.id,
+                "cloudflare_id": photo.cloudflare_id
+            } for photo in giveaway.photos]
         }
 
     return return_giveaway, 200

@@ -6,6 +6,7 @@ from app.models.giveaway import Giveaway
 from app.models.participant import Participant
 from app.models.ticket import Ticket
 from app.models.winner import Winner
+from app.models.photo import Photo
 
 @pytest.fixture
 def app():
@@ -64,5 +65,14 @@ def two_winners(app):
     
     db.session.add(winner1)
     db.session.add(winner2)
+    db.session.commit()
+
+@pytest.fixture
+def two_photos(app):
+    photo1 = Photo(giveaway_id=1, cloudflare_id="1")
+    photo2 = Photo(giveaway_id=2, cloudflare_id="2")
+    
+    db.session.add(photo1)
+    db.session.add(photo2)
     db.session.commit()
 
