@@ -13,12 +13,14 @@ def test_get_all_giveaways_returns_list_of_giveaways_no_winners(client, two_give
     assert response_body == [
         {"id": 1,
          "name": "Giveaway 1",
+         "description": "This is a description.",
          "start_date": "March 28, 2024",
          "end_date": "March 29, 2024",
          "winners": [],
          "photos": []},
         {"id": 2,
          "name": "Giveaway 2",
+         "description": None,
          "start_date": "April 21, 2024",
          "end_date": "April 23, 2024",
          "winners": [],
@@ -33,6 +35,7 @@ def test_get_all_giveaways_returns_list_of_giveaways_with_winners(client, two_gi
     assert response_body == [
         {"id": 1,
          "name": "Giveaway 1",
+         "description": "This is a description.",
          "start_date": "March 28, 2024",
          "end_date": "March 29, 2024",
          "winners": [
@@ -48,6 +51,7 @@ def test_get_all_giveaways_returns_list_of_giveaways_with_winners(client, two_gi
         },
         {"id": 2,
          "name": "Giveaway 2",
+         "description": None,
          "start_date": "April 21, 2024",
          "end_date": "April 23, 2024",
          "winners": [],
@@ -57,6 +61,7 @@ def test_get_all_giveaways_returns_list_of_giveaways_with_winners(client, two_gi
 def test_create_two_giveaways(client):
     response1 = client.post("/giveaways", json={
         "name": "New Giveaway 1",
+        "description": "This is a description.",
         "start_date": "July 1, 2024",
         "end_date": "July 7, 2024"
     })
@@ -85,12 +90,14 @@ def test_create_two_giveaways(client):
     assert response_body3 == [
         {"id": 1,
          "name": "New Giveaway 1",
+         "description": "This is a description.",
          "start_date": "July 1, 2024",
          "end_date": "July 7, 2024",
          "winners": [],
          "photos": []},
         {"id": 2,
          "name": "New Giveaway 2",
+         "description": None,
          "start_date": "August 1, 2024",
          "end_date": "August 7, 2024",
          "winners": [],
@@ -108,6 +115,7 @@ def test_get_giveaway_by_id_returns_correct_giveaway(client, two_giveaways):
     assert response_body1 == {
         "id": 1,
         "name": "Giveaway 1",
+        "description": "This is a description.",
         "start_date": "March 28, 2024",
         "end_date": "March 29, 2024",
         "winners": [],
@@ -117,6 +125,7 @@ def test_get_giveaway_by_id_returns_correct_giveaway(client, two_giveaways):
     assert response_body2 == {
         "id": 2,
         "name": "Giveaway 2",
+        "description": None,
         "start_date": "April 21, 2024",
         "end_date": "April 23, 2024",
         "winners": [],
@@ -140,6 +149,7 @@ def test_get_giveaway_tickets_returns_list_of_tickets(client, two_giveaways, two
 def test_update_giveaway(client, two_giveaways):
     response1 = client.put("/giveaways/1", json={
         "name": "New Giveaway 1",
+        "description": "This is a NEW description.",
         "start_date": "July 1, 2024",
         "end_date": "July 7, 2024"
     })
@@ -158,12 +168,14 @@ def test_update_giveaway(client, two_giveaways):
     assert response_body2 == [
         {"id": 2,
          "name": "Giveaway 2",
+         "description": None,
          "start_date": "April 21, 2024",
          "end_date": "April 23, 2024",
          "winners": [],
          "photos": []},
         {"id": 1,
          "name": "New Giveaway 1",
+         "description": "This is a NEW description.",
          "start_date": "July 1, 2024",
          "end_date": "July 7, 2024",
          "winners": [],
@@ -186,6 +198,7 @@ def test_delete_giveaway_deletes_giveaway_and_its_tickets_and_winners(client, tw
     assert response_body2 == [{
         "id": 2,
         "name": "Giveaway 2",
+        "description": None,
         "start_date": "April 21, 2024",
         "end_date": "April 23, 2024",
         "winners": [],
