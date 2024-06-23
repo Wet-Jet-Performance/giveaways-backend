@@ -29,7 +29,8 @@ def client(app):
 
 @pytest.fixture
 def two_giveaways(app):
-    giveaway1 = Giveaway(name="Giveaway 1", 
+    giveaway1 = Giveaway(name="Giveaway 1",
+                         description="This is a description.",
                          start_date="March 28, 2024", end_date="March 29, 2024")
     giveaway2 = Giveaway(name="Giveaway 2",
                          start_date="April 21, 2024", end_date="April 23, 2024")
