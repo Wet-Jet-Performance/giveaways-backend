@@ -9,6 +9,7 @@ def create_giveaway():
     request_body = request.get_json()
 
     new_giveaway = Giveaway(name=request_body["name"],
+                            description=request_body.get("description", None),
                             start_date=request_body["start_date"],
                             end_date=request_body["end_date"]
                             )
@@ -31,6 +32,7 @@ def get_giveaways():
         return_giveaways.append({
             "id": giveaway.id,
             "name": giveaway.name,
+            "description": giveaway.description,
             "start_date": giveaway.start_date.strftime("%B %-d, %Y"),
             "end_date": giveaway.end_date.strftime("%B %-d, %Y"),
             "winners": [{
@@ -53,6 +55,7 @@ def get_one_giveaway(giveaway_id):
     return_giveaway = {
             "name": giveaway.name,
             "id": giveaway.id,
+            "description": giveaway.description,
             "start_date": giveaway.start_date.strftime("%B %-d, %Y"),
             "end_date": giveaway.end_date.strftime("%B %-d, %Y"),
             "winners": [{
@@ -107,6 +110,7 @@ def update_giveaway(giveaway_id):
     db.session.execute(db.update(Giveaway), [{
         "id": giveaway_id,
         "name": request_body["name"],
+        "description": request_body["description"],
         "start_date": request_body["start_date"],
         "end_date": request_body["end_date"]
     }])
