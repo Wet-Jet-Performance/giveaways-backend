@@ -33,8 +33,8 @@ def get_giveaways():
             "id": giveaway.id,
             "name": giveaway.name,
             "description": giveaway.description,
-            "start_date": giveaway.start_date.strftime("%B %-d, %Y"),
-            "end_date": giveaway.end_date.strftime("%B %-d, %Y"),
+            "start_date": giveaway.start_date.strftime("%B %d, %Y").replace(' 0', ' '),   
+            "end_date": giveaway.end_date.strftime("%B %d, %Y").replace(' 0', ' '),
             "winners": [{
                 "id": winner.id,
                 "giveaway_id": winner.giveaway_id,
@@ -56,8 +56,8 @@ def get_one_giveaway(giveaway_id):
             "name": giveaway.name,
             "id": giveaway.id,
             "description": giveaway.description,
-            "start_date": giveaway.start_date.strftime("%B %-d, %Y"),
-            "end_date": giveaway.end_date.strftime("%B %-d, %Y"),
+            "start_date": giveaway.start_date.strftime("%B %d, %Y").replace(' 0', ' '),
+            "end_date": giveaway.end_date.strftime("%B %d, %Y").replace(' 0', ' '),
             "winners": [{
                 "id": winner.id,
                 "giveaway_id": winner.giveaway_id,
