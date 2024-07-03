@@ -50,24 +50,27 @@ def send_email():
 
 @tickets_bp.route("", methods=["GET"])
 def get_tickets():
-    print("Inside Ticket Route")
-    # tickets = db.session.scalars(db.select(Ticket))
-    # return_tickets = []
+    print("Outside Ticket Route")
+    try:
+        print("Inside Ticket Route")
+        tickets = db.session.scalars(db.select(Ticket))
+        return_tickets = []
 
-    # for ticket in tickets:
-    #     return_tickets.append({
-    #         "id": ticket.id,
-    #         "giveaway_id": ticket.giveaway_id,
-    #         "participant_id": ticket.participant_id,
-    #         "giveaway_name": ticket.giveaway.name,
-    #         "participant_name": ticket.participant.name,
-    #         "participant_phone": ticket.participant.phone_number,
-    #         "participant_email": ticket.participant.email
-    #     })
-    # print(return_tickets)
-    # return return_tickets, 200
-
-    return "success", 200
+        for ticket in tickets:
+            return_tickets.append({
+                "id": ticket.id,
+                "giveaway_id": ticket.giveaway_id,
+                "participant_id": ticket.participant_id,
+                "giveaway_name": ticket.giveaway.name,
+                "participant_name": ticket.participant.name,
+                "participant_phone": ticket.participant.phone_number,
+                "participant_email": ticket.participant.email
+            })
+        print(return_tickets)
+        return return_tickets, 200
+    except Exception as e:
+        print(e)
+        return 'Some Errors', 404
 
 @tickets_bp.route("/<int:ticket_id>", methods=["GET"])
 def get_one_ticket(ticket_id):
