@@ -52,7 +52,6 @@ def send_email():
 def get_tickets():
     print("Inside Ticket Route")
     tickets = db.session.scalars(db.select(Ticket))
-    current_app.logger.info(f"Fetched {len(tickets)} tickets")
     return_tickets = []
 
     for ticket in tickets:
@@ -66,7 +65,7 @@ def get_tickets():
             "participant_email": ticket.participant.email
         })
     print(return_tickets)
-    return return_tickets[10], 200
+    return return_tickets, 200
 
 @tickets_bp.route("/<int:ticket_id>", methods=["GET"])
 def get_one_ticket(ticket_id):
