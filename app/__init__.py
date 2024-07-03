@@ -55,6 +55,6 @@ def create_app(test_config = False):
     # add origins parameter to specify where requests are allowed from
     # CORS(app, origins=[“http://localhost:8000”, “https://example.com”]).
 
-    CORS(app, origins=["https://wetjetperformancegiveaways.onrender.com"])
+    CORS(app, origins=["https://wetjetperformancegiveaways.onrender.com","http://localhost:3000"])
 
     return app
