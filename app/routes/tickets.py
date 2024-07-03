@@ -51,7 +51,7 @@ def send_email():
 @tickets_bp.route("", methods=["GET"])
 def get_tickets():
     tickets = db.session.scalars(db.select(Ticket))
-
+    current_app.logger.info(f"Fetched {len(tickets)} tickets")
     return_tickets = []
 
     for ticket in tickets:
