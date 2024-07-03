@@ -48,29 +48,28 @@ def send_email():
 
     return {"msg": "Email sent successfully"}, 200
 
+# Only fetches 20000 tickets due to timeout and frontend can't handle more than 20000 tickets
 @tickets_bp.route("", methods=["GET"])
 def get_tickets():
-    print("Outside Ticket Route")
-    try:
-        print("Inside Ticket Route")
-        tickets = db.session.scalars(db.select(Ticket))
-        return_tickets = []
+    tickets = db.session.query(Ticket)\
+                        .order_by(Ticket.id.desc())\
+                        .limit(20000)\
+                        .all()
 
-        for ticket in tickets:
-            return_tickets.append({
-                "id": ticket.id,
-                "giveaway_id": ticket.giveaway_id,
-                "participant_id": ticket.participant_id,
-                "giveaway_name": ticket.giveaway.name,
-                "participant_name": ticket.participant.name,
-                "participant_phone": ticket.participant.phone_number,
-                "participant_email": ticket.participant.email
-            })
-        print(return_tickets)
-        return return_tickets, 200
-    except Exception as e:
-        print(e)
-        return 'Some Errors', 404
+    return_tickets = []
+
+    for ticket in tickets:
+        return_tickets.append({
+            "id": ticket.id,
+            "giveaway_id": ticket.giveaway_id,
+            "participant_id": ticket.participant_id,
+            "giveaway_name": ticket.giveaway.name,
+            "participant_name": ticket.participant.name,
+            "participant_phone": ticket.participant.phone_number,
+            "participant_email": ticket.participant.email
+        })
+    return return_tickets, 200
+
 
 @tickets_bp.route("/<int:ticket_id>", methods=["GET"])
 def get_one_ticket(ticket_id):
