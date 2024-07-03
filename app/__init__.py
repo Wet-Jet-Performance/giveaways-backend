@@ -36,6 +36,7 @@ def create_app(test_config = False):
     from app.models.ticket import Ticket
     from app.models.winner import Winner
     from app.models.photo import Photo
+    from app.models.dynamicdata import DynamicData
 
     from .routes.giveaways import giveaways_bp
     app.register_blueprint(giveaways_bp)
@@ -52,9 +53,12 @@ def create_app(test_config = False):
     from .routes.photos import photos_bp
     app.register_blueprint(photos_bp)
 
+    from .routes.dynamicdata import dynamicdata_bp
+    app.register_blueprint(dynamicdata_bp)
+
     # add origins parameter to specify where requests are allowed from
     # CORS(app, origins=[“http://localhost:8000”, “https://example.com”]).
 
-    CORS(app, resources={r"/*": {"origins": "*"}})    # Fixing CORS Error 
+    CORS(app, origins=["https://wetjetperformancegiveaways.onrender.com","http://localhost:3000"])
 
     return app
