@@ -37,6 +37,7 @@ def create_app(test_config = False):
     from app.models.winner import Winner
     from app.models.photo import Photo
     from app.models.dynamicdata import DynamicData
+    from app.models.giveawaysteps import GiveawaySteps
 
     from .routes.giveaways import giveaways_bp
     app.register_blueprint(giveaways_bp)
@@ -55,6 +56,9 @@ def create_app(test_config = False):
 
     from .routes.dynamicdata import dynamicdata_bp
     app.register_blueprint(dynamicdata_bp)
+
+    from .routes.giveawaystep import giveawaysteps_bp
+    app.register_blueprint(giveawaysteps_bp)
 
     # add origins parameter to specify where requests are allowed from
     # CORS(app, origins=[“http://localhost:8000”, “https://example.com”]).

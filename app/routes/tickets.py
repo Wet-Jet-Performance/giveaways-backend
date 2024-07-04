@@ -48,12 +48,12 @@ def send_email():
 
     return {"msg": "Email sent successfully"}, 200
 
-# Only fetches 20000 tickets due to timeout and frontend can't handle more than 20000 tickets
+# Only fetches 10000 tickets due to timeout and frontend can't handle more than 10000 tickets
 @tickets_bp.route("", methods=["GET"])
 def get_tickets():
     tickets = db.session.query(Ticket)\
                         .order_by(Ticket.id.desc())\
-                        .limit(20000)\
+                        .limit(10000)\
                         .all()
 
     return_tickets = []
