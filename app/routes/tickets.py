@@ -53,7 +53,7 @@ def send_email():
 def get_tickets():
     tickets = db.session.query(Ticket)\
                         .order_by(Ticket.id.desc())\
-                        .limit(50000)\
+                        .limit(20000)\
                         .all()
 
     return_tickets = []
