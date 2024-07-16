@@ -60,8 +60,8 @@ def create_app(test_config = False):
     from .routes.giveawaystep import giveawaysteps_bp
     app.register_blueprint(giveawaysteps_bp)
 
-    # add origins parameter to specify where requests are allowed from
-    # CORS(app, origins=[“http://localhost:8000”, “https://example.com”]).
+    from .routes.templates import templates_bp
+    app.register_blueprint(templates_bp)
 
     CORS(app, origins=["https://wetjetperformancegiveaways.onrender.com","http://localhost:3000"])
 
