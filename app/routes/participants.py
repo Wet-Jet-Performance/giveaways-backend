@@ -7,10 +7,11 @@ participants_bp = Blueprint("participants", __name__, url_prefix="/participants"
 @participants_bp.route("", methods=["POST"])
 def create_participant():
     request_body = request.get_json()
-    existing_participant = Participant.query.filter_by(email=request_body["email"]).first()
-    print(existing_participant)
-    if existing_participant:
-        return {"error": "Email already exists"}, 409
+    # Existing Particiapnts check disabled for some time
+    # existing_participant = Participant.query.filter_by(email=request_body["email"]).first()
+    # print(existing_participant)
+    # if existing_participant:
+    #     return {"error": "Email already exists"}, 409
     
     new_participant = Participant(name=request_body["name"],
                             phone_number=request_body["phone_number"],
